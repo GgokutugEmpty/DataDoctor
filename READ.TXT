@@ -1,0 +1,93 @@
+DataDoctor Utility Program
+==========================
+
+Author: A.Goktug
+Version: 1.0
+Date: 2024-09-15
+
+Description:
+-------------
+The DataDoctor Utility Program is designed to interact with block devices on a Linux system. 
+It provides functionalities to:
+1. Read specific sectors from a block device.
+2. Detect and analyze FAT32 filesystems.
+3. Scan partitions on a block device.
+4. List all block devices currently available on the system.
+
+Features:
+----------
+1. **Read Sector**: Allows you to read and display data from a specific sector of a block device.
+2. **Read FAT32**: Scans the device for FAT32 filesystems and prints metadata information.
+3. **Scan Partitions**: Searches for MBR partitions in the first set number of sectors and displays partition information.
+4. **List Block Devices**: Lists all block devices by reading symbolic links in `/sys/class/block`.
+
+
+
+
+
+
+
+
+Disclaimers and Limitations:
+----------------------------
+- **Data Loss**: The program performs low-level operations on block devices. Misuse or incorrect input may result in data loss or corruption. Use the program with caution and ensure you have backups of important data.
+- **System Compatibility**: The program is designed to run on Linux-based systems. It may not work correctly on other operating systems or with non-standard hardware.
+- **Permissions**: Some operations may require elevated privileges (e.g., root access). Ensure you have the necessary permissions to access and manipulate block devices.
+- **Errors and Bugs**: The program is provided as-is, and while every effort has been made to ensure its correctness, there may be bugs or errors. The author is not responsible for any issues that arise from the use of this program.
+- **No Warranty**: The program is distributed without any warranties of any kind, either express or implied, including but not limited to the implied warranties of merchantability and fitness for a particular purpose.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Usage:
+------
+1. **Build the Program**:
+   Compile the program using `gcc` with the following command:
+gcc -o datadoctor main.c precomp.c
+
+
+2. **Run the Program**:
+Execute the program with:
+./datadoctor
+
+You will be presented with a menu to select an option:
+- **1**: Read Sector
+- **2**: Read FAT32
+- **3**: Scan Partitions
+- **4**: List Block Devices
+- **5**: Exit
+
+Follow the on-screen instructions to perform the desired operations.
+
+Requirements:
+-------------
+- A Linux-based operating system.
+- Appropriate permissions to access block devices and `/sys/class/block`.
+- `gcc` or another compatible C compiler.
+
+Credits:
+--------
+- This program was developed by A.Goktug. 
+- It is provided as-is, and feedback or contributions are welcome.
+
+License:
+--------
+- This program is distributed under the MIT License. See LICENSE file for details.
+
+Contact:
+--------
+For questions or feedback, please contact A.Goktug at [your-email@example.com].
+
