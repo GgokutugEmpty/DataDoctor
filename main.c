@@ -27,15 +27,7 @@
 #include <string.h>
 #include <sys/ioctl.h>
 #include "precomp.h"
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-void hex_extract(const char* file_path);
-
-#ifdef __cplusplus
-}
-#endif
+#include "cpp.h"
 
 void display_menu() {
     printf("Menu:\n");
@@ -44,7 +36,8 @@ void display_menu() {
     printf("3. Scan Partitions\n");
     printf("4. List Block Devices\n");
     printf("5. Exit\n");
-    printf("Please select an option (1-5): ");
+	printf("6. File HEX Dump\n");
+    printf("Please select an option (1-6): ");
 }
 
 void read_sector_input(const char *device) {
@@ -76,6 +69,15 @@ void display_disclaimer() {
     printf("\nDo you accept these terms and wish to continue? (yes/no): ");
 }
 
+void hex_dump_input() 
+{
+    char file_path[256];
+
+    printf("Enter the file path for HEX dump: ");
+    scanf("%s", file_path);
+
+    hex_dump(file_path);
+}
 int main() {
     printf("====================================\n");
     printf("      DataDoctor Utility Program\n");
@@ -117,7 +119,6 @@ int main() {
         display_menu();
         if (scanf("%d", &choice) != 1) {
             printf("Invalid input. Please enter a number between 1 and 5.\n");
-            // Clear invalid input
             while (getchar() != '\n');
             continue;
         }
@@ -138,6 +139,11 @@ int main() {
             case 5:
                 printf("Exiting...\n");
                 return 0;
+				
+			case 6:
+                printf("HEX Dump...\n");
+                hex_dump_input();
+				break;
             default:
                 printf("Invalid choice. Please select a number between 1 and 5.\n");
                 break;
