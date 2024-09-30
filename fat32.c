@@ -1,18 +1,3 @@
-/*
- * FAT32 Reader Utility
- * ====================================
- * Author: A.Goktug
- * Description: This program scans a block device for FAT32 boot sectors,
- *              extracts and prints metadata, and displays the root directory
- *              entries from the FAT32 filesystem.
- * Version: 1.0
- * Date: 2024-09-15
- * 
- * Notes:
- * - Ensure you have the necessary permissions to access the block device.
- * - The device path should be specified correctly to avoid errors.
- */
-
 #include <stdio.h>
 #include <stdint.h>
 #include <fcntl.h>
@@ -22,6 +7,8 @@
 
 #define SECTOR_SIZE 512
 #define MAX_SECTORS 104857600
+
+
 
 void read_fat32(const char *device) {
     int fd = open(device, O_RDONLY);
@@ -52,11 +39,11 @@ void read_fat32(const char *device) {
             if (strncmp((char *)fs_type, "FAT32   ", 8) == 0) {
                 printf("FAT32 Boot Sector found at sector %ld\n", sector_num);
                 print_hex(sector, SECTOR_SIZE);
-                uint16_t sectors_per_cluster = sector[0x0D];
-                uint16_t reserved_sector_count = *(uint16_t *)&sector[0x0E];
-                uint16_t number_of_fats = sector[0x10];
-                uint32_t fat_size_32 = *(uint32_t *)&sector[0x24];
-                uint32_t root_dir_first_cluster = *(uint32_t *)&sector[0x2C];
+                uint8_t sectors_per_cluster = sector[0x0D]; // 1 byte
+                uint16_t reserved_sector_count = *(uint16_t *)&sector[0x0E]; // 2 bytes
+                uint8_t number_of_fats = sector[0x10]; // 1 byte
+                uint32_t fat_size_32 = *(uint32_t *)&sector[0x24]; // 4 bytes
+                uint32_t root_dir_first_cluster = *(uint32_t *)&sector[0x2C]; // 4 bytes
 
                 printf("Metadata:\n");
                 printf("Sectors per cluster: %u\n", sectors_per_cluster);
@@ -64,8 +51,9 @@ void read_fat32(const char *device) {
                 printf("Number of FATs: %u\n", number_of_fats);
                 printf("FAT size (in sectors): %u\n", fat_size_32);
                 printf("Root directory first cluster: %u\n", root_dir_first_cluster);
+                uint32_t root_dir_start_sector = reserved_sector_count + (number_of_fats * fat_size_32) +
+                (root_dir_first_cluster - 2) * sectors_per_cluster;
 
-                uint32_t root_dir_start_sector = reserved_sector_count + (number_of_fats * fat_size_32);
                 off_t root_dir_offset = root_dir_start_sector * SECTOR_SIZE;
                 uint8_t root_dir_sector[SECTOR_SIZE];
 
