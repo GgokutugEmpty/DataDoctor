@@ -1,56 +1,32 @@
-/*
- * Block Device Listing Utility
- * ====================================
- * Author: A.Goktug
- * Description: This program lists all block devices currently available on the system.
- *              It reads the `/sys/class/block` directory, identifies symbolic links to
- *              block devices, and prints their real paths.
- * Version: 1.0
- * Date: 2024-09-15
- * 
- * Notes:
- * - Requires appropriate permissions to access `/sys/class/block`.
- * - The output will include paths of block devices.
- */
- 
 #include <stdio.h>
 #include <stdlib.h>
-#include <dirent.h>
-#include <string.h>
-#include <sys/stat.h>
-#include <unistd.h>  
 
-#define BLOCK_DEV_DIR "/sys/class/block"
-// FIX!
 void list_block_devices() {
-    struct dirent *entry;
-    DIR *dp = opendir(BLOCK_DEV_DIR);
+    FILE *fp;
+    char buffer[256];
 
-    if (dp == NULL) {
-        perror("opendir");
+    // /proc/partitions dosyasını aç
+    fp = fopen("/proc/partitions", "r");
+    if (fp == NULL) {
+        perror("Failed to open /proc/partitions");
         return;
     }
 
-    printf("List of block devices:\n");
+    // Başlık satırını geç
+    fgets(buffer, sizeof(buffer), fp);
+    fgets(buffer, sizeof(buffer), fp);
 
-    while ((entry = readdir(dp))) {
-        if (strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0) {
-            continue;
-        }
+    // Cihazları oku ve yazdır
+    while (fgets(buffer, sizeof(buffer), fp) != NULL) {
+        // Cihaz bilgilerini ayıkla
+        unsigned long size;
+        char device[32];
 
-        char path[256];
-        snprintf(path, sizeof(path), "%s/%s", BLOCK_DEV_DIR, entry->d_name);
-
-        struct stat st;
-        if (stat(path, &st) == 0 && S_ISLNK(st.st_mode)) {
-            char real_path[256];
-            ssize_t len = readlink(path, real_path, sizeof(real_path) - 1);
-            if (len != -1) {
-                real_path[len] = '\0';
-                printf("%s\n", real_path);
-            }
-        }
+        sscanf(buffer, "%lu %*d %*d %s", &size, device);
+        printf("Device: %s, Size: %lu KB\n", device, size);
     }
 
-    closedir(dp);
+    fclose(fp);
 }
+
+

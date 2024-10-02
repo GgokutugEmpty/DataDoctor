@@ -25,6 +25,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <string.h>
+#include <stdlib.h>
 #include <sys/ioctl.h>
 #include "precomp.h"
 #include "cpp.h"
@@ -36,7 +37,8 @@ void display_menu() {
     printf("3. Scan Partitions\n");
     printf("4. List Block Devices\n");
     printf("5. Exit\n");
-	printf("6. File HEX Dump\n");
+    printf("6. File HEX Dump\n");
+    printf("7. Clear Screen\n");
     printf("Please select an option (1-6): ");
 }
 
@@ -105,6 +107,10 @@ int main() {
     }
 
     const char *device = "/dev/nvme0n1";
+	//
+	// base disk address
+	//
+	
     int choice;
     printf("====================================\n");
     printf("      DataDoctor Utility Program\n");
@@ -144,7 +150,9 @@ int main() {
                 printf("HEX Dump...\n");
                 hex_dump_input();
 				break;
-            default:
+
+	   case 7:system("clear"); break;        
+    default:
                 printf("Invalid choice. Please select a number between 1 and 5.\n");
                 break;
         }
