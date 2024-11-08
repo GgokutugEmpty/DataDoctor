@@ -4,7 +4,7 @@ CFLAGS = -Wall -Wextra -O2
 CXXFLAGS = -Wall -Wextra -O2
 TARGET = DataDoctor
 LIBNAME = hexfile
-SRC = main.c read.c fat32.c fatpartition.c block.c ascii.c ext4partiton.c
+SRC = main.c read.c fat32.c fatpartition.c block.c ascii.c ext4partition.c
 CPP_SRC = hexfile.cpp
 OBJ = $(SRC:.c=.o) $(CPP_SRC:.cpp=.o)
 LIB = lib$(LIBNAME).a
