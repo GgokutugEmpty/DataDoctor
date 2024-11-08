@@ -39,6 +39,7 @@ void display_menu() {
     printf("5. Exit\n");
     printf("6. File HEX Dump\n");
     printf("7. Clear Screen\n");
+    printf("8. Find ext4 Partitions\n");
     printf("Please select an option (1-6): ");
 }
 
@@ -124,7 +125,7 @@ int main() {
     while (1) {
         display_menu();
         if (scanf("%d", &choice) != 1) {
-            printf("Invalid input. Please enter a number between 1 and 5.\n");
+            printf("Invalid input. Please enter a number between 1 and 8.\n");
             while (getchar() != '\n');
             continue;
         }
@@ -152,7 +153,8 @@ int main() {
 				break;
 
 	   case 7:system("clear"); break;        
-    default:
+       case 8:read_ext4(device);break;
+       default:
                 printf("Invalid choice. Please select a number between 1 and 5.\n");
                 break;
         }

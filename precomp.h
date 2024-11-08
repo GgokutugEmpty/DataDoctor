@@ -5,4 +5,5 @@ void read_fat32(const char *device);
 void partition_scan(const char *device);
 void print_hex(const uint8_t *data, size_t size);
 void list_block_devices();
+void read_ext4(const char *device);
 #endif

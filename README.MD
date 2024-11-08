@@ -5,6 +5,7 @@ The DataDoctor Utility Program provides several utilities for interacting with b
 
 - [X] **Block Device Listing Utility** [X] : Lists all block devices currently available on the system.
 - [X] **FAT32 Reader Utility** [X] : Scans a block device for FAT32 boot sectors and displays metadata and root directory entries.
+- [X] **ext4 Reader Utility** [X] : Extract and display EXT4 metadata, including superblock information and file system structure.
 - [X] **Partition Scanner Utility** [X] : Scans a block device for Master Boot Record (MBR) partitions and prints partition information.
 - [X] **Sector Reader Utility** : Reads a specific sector from a block device and prints the sector data in hexadecimal format.
 
@@ -45,9 +46,8 @@ A.Goktug
 - Will extract and display NTFS metadata such as volume information and file system properties.
 
 ### EXT4 Reader Utility
-- [ ] (Upcoming)
-- Planned to scan a block device for EXT4 boot sectors.
-- Will extract and display EXT4 metadata, including superblock information and file system structure.
+- [X] (Just Started)
+- extract and display EXT4 metadata, including superblock information and file system structure.
 
 ### Data Recovery Utility
 - [ ] (Upcoming)
